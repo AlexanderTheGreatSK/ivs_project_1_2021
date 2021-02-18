@@ -4,6 +4,8 @@
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
+add_test(WhiteBoxTest.MatrixCreate "/home/alex/Documents/ivs_project_1_2021/assignment/build/white_box_test" "--gtest_filter=WhiteBoxTest.MatrixCreate")
+set_tests_properties(WhiteBoxTest.MatrixCreate PROPERTIES  _BACKTRACE_TRIPLES "/home/alex/Documents/ivs_project_1_2021/assignment/GoogleTest.cmake;39;add_test;/home/alex/Documents/ivs_project_1_2021/assignment/CMakeLists.txt;36;GTEST_ADD_TESTS;/home/alex/Documents/ivs_project_1_2021/assignment/CMakeLists.txt;0;")
 add_test(NonEmptyQueue.Insert "/home/alex/Documents/ivs_project_1_2021/assignment/build/tdd_test" "--gtest_filter=NonEmptyQueue.Insert")
 set_tests_properties(NonEmptyQueue.Insert PROPERTIES  _BACKTRACE_TRIPLES "/home/alex/Documents/ivs_project_1_2021/assignment/GoogleTest.cmake;39;add_test;/home/alex/Documents/ivs_project_1_2021/assignment/CMakeLists.txt;43;GTEST_ADD_TESTS;/home/alex/Documents/ivs_project_1_2021/assignment/CMakeLists.txt;0;")
 add_test(NonEmptyQueue.RemoveAllBackward "/home/alex/Documents/ivs_project_1_2021/assignment/build/tdd_test" "--gtest_filter=NonEmptyQueue.RemoveAllBackward")

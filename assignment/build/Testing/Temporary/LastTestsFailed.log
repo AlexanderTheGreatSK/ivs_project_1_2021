@@ -1,0 +1,6 @@
+2:NonEmptyQueue.Insert
+3:NonEmptyQueue.RemoveAllBackward
+4:NonEmptyQueue.RemoveAllForward
+5:NonEmptyQueue.Find
+6:NonEmptyQueue.Length
+7:EmptyQueue.Insert

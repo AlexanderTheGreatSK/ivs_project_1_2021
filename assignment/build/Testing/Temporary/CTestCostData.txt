@@ -1,0 +1,17 @@
+WhiteBoxTest.MatrixCreate 1 0.018637
+NonEmptyQueue.Insert 0 0
+NonEmptyQueue.RemoveAllBackward 0 0
+NonEmptyQueue.RemoveAllForward 0 0
+NonEmptyQueue.Find 0 0
+NonEmptyQueue.Length 0 0
+EmptyQueue.Insert 0 0
+EmptyQueue.Remove 1 0.00346374
+EmptyQueue.Find 1 0.00432164
+EmptyQueue.Length 1 0.0045695
+---
+NonEmptyQueue.Insert
+NonEmptyQueue.RemoveAllBackward
+NonEmptyQueue.RemoveAllForward
+NonEmptyQueue.Find
+NonEmptyQueue.Length
+EmptyQueue.Insert
