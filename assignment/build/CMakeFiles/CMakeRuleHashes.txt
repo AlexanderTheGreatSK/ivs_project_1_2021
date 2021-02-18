@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+a6112b115edef78dd61926e61d9eefc6 CMakeFiles/pack
+1563e2eee180708b9831eea51f062951 CMakeFiles/tdd_test_coverage
+35c48bfaa4285af6f825faf2c3287d6d CMakeFiles/white_box_test_coverage
