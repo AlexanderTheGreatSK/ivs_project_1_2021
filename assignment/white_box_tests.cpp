@@ -69,12 +69,12 @@ protected:
     }
 
     Matrix createTreeSquaredMatrix() {
-        Matrix matrixTmp = Matrix(3,3);
+        Matrix matrixTmp = Matrix(3, 3);
 
         matrixTmp.set(std::vector<std::vector<double>> {
                 {5,-4,3.14},
                 {-8.16,15,0},
-                {23.33,-259,02,-26},
+                {23.33,-259, -26},
         });
 
         return matrixTmp;
@@ -139,23 +139,162 @@ protected:
     }
 };
 
+    ///TEST-MATRIX-CONSTRUCTOR-------------
+
 TEST_F(WhiteBoxTest, MatrixCreate) {
 
-///test správnosti
+    ASSERT_NO_THROW(Matrix());
 
-//vytvorenie Matice(1,1)
-EXPECT_NO_THROW(Matrix());
+    ASSERT_NO_THROW(Matrix(1,1));
+    ASSERT_NO_THROW(Matrix(2,3));
+    ASSERT_NO_THROW(Matrix(3,2));
 
-EXPECT_NO_THROW(Matrix(1,1));
 
+    ASSERT_ANY_THROW(Matrix(0,1));
+    ASSERT_ANY_THROW(Matrix(0,0));
+    ASSERT_ANY_THROW(Matrix(1,0));
 
-EXPECT_ANY_THROW(Matrix(0,1));
-EXPECT_ANY_THROW(Matrix(0,0));
-EXPECT_ANY_THROW(Matrix(1,0));
+}
+
+TEST_F(WhiteBoxTest, SetMatrix1x1Values) {
+
+    Matrix matrix = createOneSquaredMatrix();
+
+    ASSERT_FALSE(matrix.set(1,1,4.2));
+    ASSERT_FALSE(matrix.set(0,1,4.2));
+    ASSERT_FALSE(matrix.set(1,0,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(0,0,-123.123));
+    ASSERT_TRUE(matrix.set(0,0,5));
+
+}
+
+TEST_F(WhiteBoxTest, SetMatrix3x3Values) {
+
+    Matrix matrix = createTreeSquaredMatrix();
+
+    ASSERT_FALSE(matrix.set(3,3,4.2));
+    ASSERT_FALSE(matrix.set(0,3,4.2));
+    ASSERT_FALSE(matrix.set(3,0,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(2,2,-123.123));
+    ASSERT_TRUE(matrix.set(0,2,5));
+    ASSERT_TRUE(matrix.set(2,1,-5));
+
+}
+
+TEST_F(WhiteBoxTest, SetMatrixRowVectorValues) {
+
+    Matrix matrix = createRowVectorMatrix();
+
+    ASSERT_FALSE(matrix.set(1,1,4.2));
+    ASSERT_FALSE(matrix.set(0,5,4.2));
+    ASSERT_FALSE(matrix.set(5,5,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(0,2,-123.123));
+    ASSERT_TRUE(matrix.set(0,3,5));
+    ASSERT_TRUE(matrix.set(0,4,-5));
+
+}
+
+TEST_F(WhiteBoxTest, SetMatrixColVectorValues) {
+
+    Matrix matrix = createColVectorMatrix();
+
+    ASSERT_FALSE(matrix.set(1,1,4.2));
+    ASSERT_FALSE(matrix.set(0,5,4.2));
+    ASSERT_FALSE(matrix.set(5,1,4.2));
+    ASSERT_FALSE(matrix.set(5,5,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(2,0,-123.123));
+    ASSERT_TRUE(matrix.set(4,0,5));
+    ASSERT_TRUE(matrix.set(1,0,-5));
+
+}
+
+TEST_F(WhiteBoxTest, SetMatrix3x2Values) {
+
+    Matrix matrix = create3x2Matrix();
+
+    ASSERT_FALSE(matrix.set(3,2,4.2));
+    ASSERT_FALSE(matrix.set(0,5,4.2));
+    ASSERT_FALSE(matrix.set(5,1,4.2));
+    ASSERT_FALSE(matrix.set(5,5,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(1,1,-123.123));
+    ASSERT_TRUE(matrix.set(2,1,5));
+    ASSERT_TRUE(matrix.set(0,1,-5));
+
+}
+
+TEST_F(WhiteBoxTest, SetMatrix2x3Values) {
+
+    Matrix matrix = create2x3Matrix();
+
+    ASSERT_FALSE(matrix.set(2,3,4.2));
+    ASSERT_FALSE(matrix.set(0,5,4.2));
+    ASSERT_FALSE(matrix.set(5,1,4.2));
+    ASSERT_FALSE(matrix.set(5,5,4.2));
+
+    ASSERT_TRUE(matrix.set(0,0,0.0));
+    ASSERT_TRUE(matrix.set(1,1,-123.123));
+    ASSERT_TRUE(matrix.set(1,2,5));
+    ASSERT_TRUE(matrix.set(0,2,-5));
+
+}
+
+    ///TESTOVANIE-GET--------------------------
+
+TEST_F(WhiteBoxTest, GetMatrix1x1W0Values) {
+
+    Matrix matrix = createOneW0ValueSquaredMatrix();
+
+    ASSERT_DOUBLE_EQ(matrix.get(0,0),0);
+
+    ASSERT_ANY_THROW(matrix.get(1,1));
+
+}
+
+TEST_F(WhiteBoxTest, GetMatrix1x1Values) {
+
+    Matrix matrix = createOneSquaredMatrix();
+
+    ASSERT_DOUBLE_EQ(matrix.get(0,0),5);
+
+    ASSERT_ANY_THROW(matrix.get(1,1));
+    ASSERT_ANY_THROW(matrix.get(0,1));
+    ASSERT_ANY_THROW(matrix.get(1,0));
 
 }
 
 
+TEST_F(WhiteBoxTest, GetMatrix3x3Values) {
 
+    Matrix matrix = createTreeSquaredMatrix();
+
+    ASSERT_DOUBLE_EQ(matrix.get(0,0),5);
+    ASSERT_DOUBLE_EQ(matrix.get(2,2),-26);
+    ASSERT_DOUBLE_EQ(matrix.get(1,2),0);
+    ASSERT_DOUBLE_EQ(matrix.get(2,0),23.33);
+
+    ASSERT_ANY_THROW(matrix.get(3,3));
+    ASSERT_ANY_THROW(matrix.get(0,3));
+    ASSERT_ANY_THROW(matrix.get(3,0));
+
+}
+
+TEST_F(WhiteBoxTest, MatrixEqual) {
+
+    Matrix matrixRowVector = createRowVectorMatrix();
+    Matrix matricColVector = createColVectorMatrix();
+
+    Matrix matrix3x3 = createTreeSquaredMatrix();
+
+}
 
 /*** Konec souboru white_box_tests.cpp ***/
