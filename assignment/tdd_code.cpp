@@ -49,6 +49,7 @@ PriorityQueue::~PriorityQueue()
         delete elementTmp;
     }
 
+    delete element;
 }
 
 void PriorityQueue::Insert(int value)
@@ -73,15 +74,6 @@ void PriorityQueue::Insert(int value)
                 .pNext = elementTmp,
                 .value = value
             };
-            return;
-        } else {
-
-            m_pHead->pNext = new Element_t {
-                .pNext = nullptr,
-                .value = value
-            };
-
-
             return;
         }
     } else { //ostatné pripady
@@ -130,23 +122,78 @@ void PriorityQueue::Insert(int value)
 
 bool PriorityQueue::Remove(int value)
 {
+    Element_t *element = GetHead();
+
+    if (element == nullptr) {
+        return false;
+    } else if(element->value == value) {
+        m_pHead = element->pNext;
+
+        delete element;
+
+        return true;
+
+    } else {
+
+        while (element != nullptr) {
+
+            if (element->pNext != nullptr) {
+
+                if (element->pNext->value == value) {
+                    Element_t *elementDelete = element->pNext;
+
+                    element->pNext = element->pNext->pNext;
+
+                    delete elementDelete;
+
+                    return true;
+
+                }
+
+            }
+
+            element = element->pNext;
+        }
+
+    }
+
+
     return false;
 }
 
 PriorityQueue::Element_t *PriorityQueue::Find(int value)
 {
-    return NULL;
+
+    Element_t *element = GetHead();
+
+    while (element != nullptr) {
+
+        if (element->value == value) {
+            return element;
+        }
+
+        element = element->pNext;
+    }
+
+    return nullptr;
 }
 
 size_t PriorityQueue::Length()
 {
-	return 0;
+    Element_t *element = GetHead();
+    int counter = 0;
+
+    while (element != nullptr) {
+        counter++;
+        element = element->pNext;
+    }
+
+	return counter;
 }
 
 PriorityQueue::Element_t *PriorityQueue::GetHead()
 {
     return m_pHead;
-    //return NULL;
 }
 
 /*** Konec souboru tdd_code.cpp ***/
