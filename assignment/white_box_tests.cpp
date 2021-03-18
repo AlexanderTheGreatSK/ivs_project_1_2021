@@ -72,9 +72,23 @@ protected:
         Matrix matrixTmp = Matrix(3, 3);
 
         matrixTmp.set(std::vector<std::vector<double>> {
-                {5,-4,3.14},
-                {-8.16,15,0},
-                {23.33,-259, -26},
+                {5,-4,3},
+                {-8,15,0},
+                {23,-259, -26},
+        });
+
+        return matrixTmp;
+    }
+
+    Matrix createFiveSquaredMatrix() {
+        Matrix matrixTmp = Matrix(5, 5);
+
+        matrixTmp.set(std::vector<std::vector<double>> {
+                {1, -2, 3, -4, 5},
+                {-1, 2, -3, 4, -5},
+                {1, -2, 3, -4, 5},
+                {-1, 2, -3, 4, -5},
+                {1, -2, 3, -4, 5}
         });
 
         return matrixTmp;
@@ -86,7 +100,7 @@ protected:
         Matrix matrixTmp = Matrix(1,5);
 
         matrixTmp.set(std::vector<std::vector<double>> {
-                {5,-4,3.14, -386.2, 0.2}
+                {5,-4,3, -386, 2}
         });
 
         return matrixTmp;
@@ -110,9 +124,9 @@ protected:
         Matrix matrixTmp = Matrix(3,2);
 
         matrixTmp.set(std::vector<std::vector<double>>{
-                {5, -0.33},
+                {5, -33},
                 {-4, 0},
-                {3.14, 3.14}
+                {3, 14}
         });
 
         return matrixTmp;
@@ -122,8 +136,8 @@ protected:
         Matrix matrixTmp = Matrix(2,3);
 
         matrixTmp.set(std::vector<std::vector<double>>{
-                {5, -0.33, 0},
-                {-4, 600, -354,58}
+                {5, -33, 0},
+                {-4, 600, -354}
         });
 
         return matrixTmp;
@@ -280,7 +294,7 @@ TEST_F(WhiteBoxTest, GetMatrix3x3Values) {
     ASSERT_DOUBLE_EQ(matrix.get(0,0),5);
     ASSERT_DOUBLE_EQ(matrix.get(2,2),-26);
     ASSERT_DOUBLE_EQ(matrix.get(1,2),0);
-    ASSERT_DOUBLE_EQ(matrix.get(2,0),23.33);
+    ASSERT_DOUBLE_EQ(matrix.get(2,0),23);
 
     ASSERT_ANY_THROW(matrix.get(3,3));
     ASSERT_ANY_THROW(matrix.get(0,3));
@@ -291,9 +305,209 @@ TEST_F(WhiteBoxTest, GetMatrix3x3Values) {
 TEST_F(WhiteBoxTest, MatrixEqual) {
 
     Matrix matrixRowVector = createRowVectorMatrix();
-    Matrix matricColVector = createColVectorMatrix();
+    Matrix matrixColVector = createColVectorMatrix();
+
+    Matrix matrix3x3V1 = createTreeSquaredMatrix();
+
+    Matrix matrix3x3V2 = createTreeSquaredMatrix();
+
+    matrix3x3V2.set(0,0,0);
+
+    ASSERT_ANY_THROW(matrixColVector==matrixRowVector);
+
+    ASSERT_TRUE(matrix3x3V1==matrix3x3V1);
+
+    ASSERT_FALSE(matrix3x3V1==matrix3x3V2);
+
+}
+
+TEST_F(WhiteBoxTest, MatrixAdd) {
+
+    Matrix matrixRowVector = createRowVectorMatrix();
+    Matrix matrixColVector = createColVectorMatrix();
 
     Matrix matrix3x3 = createTreeSquaredMatrix();
+
+    Matrix expectedMatrix = Matrix(3,3);
+
+    expectedMatrix.set(std::vector<std::vector<double>> {
+            {10,-8,6},
+            {-16,30,0},
+            {46,-518,-52}
+    });
+
+    ASSERT_ANY_THROW(matrixColVector+matrixRowVector);
+
+    ASSERT_EQ(matrix3x3+matrix3x3,expectedMatrix);
+
+}
+
+TEST_F(WhiteBoxTest, MatrixMultiplication) {
+
+    Matrix matrix3x2 = create3x2Matrix();
+    Matrix matrix2x3 = create2x3Matrix();
+
+    Matrix matrixColVector = createColVectorMatrix();
+
+    Matrix expectedMatrix = Matrix(2,2);
+    Matrix resultMatrix = Matrix(2,2);
+
+    expectedMatrix.set(std::vector<std::vector<double>> {
+            {157, -165},
+            {-3482, -4824}
+    });
+
+    resultMatrix = matrix2x3*matrix3x2;
+
+    ASSERT_ANY_THROW(matrixColVector*matrix2x3);
+
+    ASSERT_TRUE(resultMatrix==expectedMatrix);
+
+}
+
+TEST_F(WhiteBoxTest, MatrixNumberMultiplication) {
+
+    Matrix matrix3x2 = create3x2Matrix();
+    Matrix matrixRowVector = createRowVectorMatrix();
+    Matrix matrix1x1W0 = createOneW0ValueSquaredMatrix();
+
+    Matrix resultMatrix3x2 = Matrix(3,2);
+    Matrix resultMatrixRowVector = Matrix(1,5);
+    Matrix resultMatrix1x1W0 = Matrix(1,1);
+
+    Matrix expectedMatrix3x2 = Matrix(3,2);
+    Matrix expectedMatrixRowVector = Matrix(1,5);
+    Matrix expectedMatrix1x1W0 = Matrix(1,1);
+
+    expectedMatrix3x2.set(std::vector<std::vector<double>> {    // * 3
+            {15, -99},
+            {-12, 0},
+            {9, 42}
+    });
+
+    expectedMatrixRowVector.set(std::vector<std::vector<double>> {  // * 2
+            {10, -8, 6, -772, 4}
+    });
+
+    expectedMatrix1x1W0.set(std::vector<std::vector<double>> {
+            {0}
+    });
+
+    resultMatrix3x2 = matrix3x2*3;
+    resultMatrixRowVector = matrixRowVector*2;
+    resultMatrix1x1W0 = matrix1x1W0*3.14;
+
+    ASSERT_TRUE(resultMatrix3x2==expectedMatrix3x2);
+    ASSERT_TRUE(resultMatrix1x1W0==expectedMatrix1x1W0);
+    ASSERT_TRUE(resultMatrixRowVector==expectedMatrixRowVector);
+
+}
+
+TEST_F(WhiteBoxTest, TransposeMatrix) {
+
+    Matrix matrix3x3 = createTreeSquaredMatrix();
+    Matrix matrix3x2 = create3x2Matrix();
+    Matrix matrix2x3 = create2x3Matrix();
+
+    Matrix matrix3x3Result = Matrix(3,3);
+    Matrix matrix3x2Result = Matrix(3,2);
+    Matrix matrix2x3Result = Matrix(2,3);
+
+    matrix3x3Result.set(std::vector<std::vector<double>> {
+            {5, -8, 23},
+            {-4, 15, -259},
+            {3, 0, -26},
+    });
+
+    matrix3x2Result.set(std::vector<std::vector<double>> {
+            {5, -4},
+            {-33, 600},
+            {0, -354}
+    });
+
+    matrix2x3Result.set(std::vector<std::vector<double>> {
+            {5, -4, 3},
+            {-33, 0, 14}
+    });
+
+    ASSERT_TRUE(matrix3x3.transpose()==matrix3x3Result);
+    ASSERT_TRUE(matrix3x2.transpose()==matrix2x3Result);
+    ASSERT_TRUE(matrix2x3.transpose()==matrix3x2Result);
+
+
+}
+
+TEST_F(WhiteBoxTest, InverseMatrix) {
+
+    Matrix matrix3x3 = createTreeSquaredMatrix();
+    Matrix matrix2x3 = create2x3Matrix();
+    Matrix matrix5x5 = createFiveSquaredMatrix();
+
+    Matrix matrix3x3Result = Matrix(3,3);
+
+    matrix3x3.set(std::vector<std::vector<double>> {
+            {1, 1, 1},
+            {6, 5, 4},
+            {13, 10, 8},
+    });
+
+    matrix3x3Result.set(std::vector<std::vector<double>> {
+            {0, -2, 1},
+            {-4, 5, -2},
+            {5, -3, 1},
+    });
+
+
+    ASSERT_TRUE(matrix3x3.inverse()==matrix3x3Result);
+    ASSERT_ANY_THROW(matrix2x3.inverse());
+    ASSERT_ANY_THROW(matrix5x5.inverse());
+
+}
+
+TEST_F(WhiteBoxTest, SolveEquation) {
+
+    Matrix matrix3x3 = createTreeSquaredMatrix();
+
+    Matrix rowVector = createRowVectorMatrix();
+    Matrix colVector = createColVectorMatrix();
+
+    ASSERT_ANY_THROW(matrix3x3.solveEquation(std::vector<double> {0}));
+    ASSERT_ANY_THROW(matrix3x3.solveEquation(std::vector<double> {0,1}));
+    ASSERT_ANY_THROW(matrix3x3.solveEquation(std::vector<double> {}));
+
+    ASSERT_ANY_THROW(rowVector.solveEquation(std::vector<double> {1}));
+    ASSERT_ANY_THROW(colVector.solveEquation(std::vector<double> {1, 2, 3, 4, 5}));
+
+    Matrix matrix2x2 = Matrix(2,2);
+
+    matrix2x2.set(std::vector<std::vector<double>> {
+            {5, 2},
+            {5, 2}
+    });
+
+    ASSERT_ANY_THROW(matrix2x2.solveEquation(std::vector<double> {5,2}));
+    ASSERT_ANY_THROW(rowVector.solveEquation(std::vector<double> {5}));
+    ASSERT_ANY_THROW(colVector.solveEquation(std::vector<double> {5,2,1,0,4}));
+
+    ///calculations-------
+
+    matrix2x2.set(std::vector<std::vector<double>> {
+            {2,4},
+            {4,2}
+    });
+
+
+    ASSERT_TRUE(matrix2x2.solveEquation(std::vector<double> {2, 4})==(std::vector<double> {1, 0}));
+
+    matrix3x3.set(std::vector<std::vector<double>> {
+            {2,3,1},
+            {1,2,-1},
+            {2,1,1},
+    });
+
+    std::vector<double> result = matrix3x3.solveEquation(std::vector<double> {0, 3, 12});
+
+    ASSERT_TRUE(matrix3x3.solveEquation(std::vector<double> {0, 3, 12})==(std::vector<double> {11, -6, -4}));
 
 }
 
