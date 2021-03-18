@@ -3,18 +3,19 @@
 // Purpose:     Test Driven Development - priority queue code
 //
 // $NoKeywords: $ivs_project_1 $tdd_code.cpp
-// $Author:     JMENO PRIJMENI <xlogin00@stud.fit.vutbr.cz>
-// $Date:       $2021-01-04
+// $Author:     ALEXANDER OKRUCKÝ <xokruc00@stud.fit.vutbr.cz>
+// $Date:       $2021-03-17
 //============================================================================//
 /**
  * @file tdd_code.cpp
- * @author JMENO PRIJMENI
+ * @author Alexander Okrucký
  * 
  * @brief Implementace metod tridy prioritni fronty.
  */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 #include "tdd_code.h"
 
@@ -34,16 +35,96 @@
 
 PriorityQueue::PriorityQueue()
 {
-
+    m_pHead = nullptr;
 }
 
 PriorityQueue::~PriorityQueue()
 {
+    Element_t *element = GetHead();
+
+    while (element != nullptr) {
+        Element_t *elementTmp = element;
+        element = element->pNext;
+
+        delete elementTmp;
+    }
 
 }
 
 void PriorityQueue::Insert(int value)
 {
+    if (m_pHead == nullptr) { //ak je Head null
+
+        m_pHead = new Element_t {
+                .pNext = nullptr,
+                .value = value
+        };
+        return;
+
+    } if (m_pHead->pNext == nullptr) { // ak je Head jediný prvok
+        if (m_pHead->value <= value) {
+
+            Element_t *elementTmp = new Element_t {
+                .pNext = nullptr,
+                .value = m_pHead->value
+            };
+
+            m_pHead = new Element_t {
+                .pNext = elementTmp,
+                .value = value
+            };
+            return;
+        } else {
+
+            m_pHead->pNext = new Element_t {
+                .pNext = nullptr,
+                .value = value
+            };
+
+
+            return;
+        }
+    } else { //ostatné pripady
+
+        Element_t *element = GetHead();
+
+        while (element != nullptr) {
+            if (m_pHead->value <= value) {
+                Element_t *e = new Element_t {
+                    .pNext = m_pHead->pNext,
+                    .value = m_pHead->value
+                };
+
+                m_pHead = new Element_t {
+                        .pNext = e,
+                        .value = value
+                };
+                return;
+            }
+
+            if (element->pNext != nullptr) {
+                if (element->pNext->value <= value) { //ak dalsia hodnota je mensia ako Value tak insertnem Element
+                    Element_t *elementTmp = element->pNext;
+
+                    element->pNext = new Element_t {
+                        .pNext = elementTmp,
+                        .value = value
+                    };
+                    return;
+                }
+            } else {
+                element->pNext = new Element_t {
+                    .pNext = nullptr,
+                    .value = value
+                };
+                return;
+            }
+
+            element = element->pNext;
+        }
+
+
+    }
 
 }
 
@@ -64,7 +145,8 @@ size_t PriorityQueue::Length()
 
 PriorityQueue::Element_t *PriorityQueue::GetHead()
 {
-    return NULL;
+    return m_pHead;
+    //return NULL;
 }
 
 /*** Konec souboru tdd_code.cpp ***/

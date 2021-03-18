@@ -3,12 +3,12 @@
 // Purpose:     White Box - Tests suite
 //
 // $NoKeywords: $ivs_project_1 $white_box_code.cpp
-// $Author:     JMENO PRIJMENI <xlogin00@stud.fit.vutbr.cz>
-// $Date:       $2021-01-04
+// $Author:     ALEXANDER OKRUCKÝ <xokruc00@stud.fit.vutbr.cz>
+// $Date:       $2021-03-17
 //============================================================================//
 /**
  * @file white_box_tests.cpp
- * @author JMENO PRIJMENI
+ * @author Alexander Okrucký
  * 
  * @brief Implementace testu prace s maticemi.
  */
