@@ -28,7 +28,6 @@
 class WhiteBoxTest : public ::testing::Test {
 
 protected:
-    //Matrix matrix;
 
     //----create-zero-matrix-----------------
 
@@ -143,14 +142,6 @@ protected:
         return matrixTmp;
     }
 
-    //----get-1x1-0-matrix-value----------
-
-    double getOneW0SquaredMatrixValue(int row, int col) { ///not needed
-
-        Matrix matrixTmp = createOneW0ValueSquaredMatrix();
-
-        return matrixTmp.get(row,col);
-    }
 };
 
     ///TEST-MATRIX-CONSTRUCTOR-------------
