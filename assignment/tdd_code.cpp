@@ -115,7 +115,6 @@ void PriorityQueue::Insert(int value)
             element = element->pNext;
         }
 
-
     }
 
 }
@@ -156,7 +155,6 @@ bool PriorityQueue::Remove(int value)
         }
 
     }
-
 
     return false;
 }

@@ -36,7 +36,6 @@
 
     class NonEmptyTree : public ::testing::Test{
 
-
     protected:
         BinaryTree binaryTree;
         int numberNodes = 11;
@@ -51,9 +50,6 @@
                 binaryTree.InsertNode(nodes[i]);
             }
         }
-
-
-
     };
 
     class EmptyTree : public ::testing::Test {

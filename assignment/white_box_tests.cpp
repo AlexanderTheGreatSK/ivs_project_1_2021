@@ -29,26 +29,6 @@ class WhiteBoxTest : public ::testing::Test {
 
 protected:
 
-    //----create-zero-matrix-----------------
-
-    Matrix createZeroSquaredMatrix() {
-        Matrix matrixTmp = Matrix(0,0);
-
-        return matrixTmp;
-    }
-
-    Matrix createZeroRowMatrix() {
-        Matrix matrixTmp = Matrix(0,5);
-
-        return matrixTmp;
-    }
-
-    Matrix createZeroColMatrix() {
-        Matrix matrixTmp = Matrix(5,0);
-
-        return matrixTmp;
-    }
-
     //----create-square-matrix-----------------
 
     Matrix createOneW0ValueSquaredMatrix() {
