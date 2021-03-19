@@ -3,12 +3,12 @@
 // Purpose:     Test Driven Development - priority queue code
 //
 // $NoKeywords: $ivs_project_1 $tdd_code.cpp
-// $Author:     JMENO PRIJMENI <xlogin00@stud.fit.vutbr.cz>
-// $Date:       $2021-01-04
+// $Author:     ALEXANDER OKRUCKÝ <xokruc00@stud.fit.vutbr.cz>
+// $Date:       $2021-03-17
 //============================================================================//
 /**
  * @file tdd_code.h
- * @author JMENO PRIJMENI
+ * @author Alexander Okrucký
  * 
  * @brief Definice rozhrani prioritni fronty.
  */
