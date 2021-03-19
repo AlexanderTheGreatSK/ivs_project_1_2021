@@ -57,6 +57,11 @@
         BinaryTree binaryTree;
     };
 
+    class TreeAxioms : public ::testing::Test {
+    protected:
+        BinaryTree binaryTree;
+    };
+
     TEST_F(EmptyTree, Insert) {
 
         ///Insert first pair
@@ -177,30 +182,6 @@
         EXPECT_TRUE(binaryTree.FindNode(0) == nullptr);
     }
 
-    TEST_F(EmptyTree, LeafNodes) {
-        std::vector<BinaryTree::Node_t *> leafNodes;
-
-        binaryTree.GetLeafNodes(leafNodes);
-
-        EXPECT_TRUE(leafNodes.empty());
-    }
-
-    TEST_F(EmptyTree, AllNodes) {
-        std::vector<BinaryTree::Node_t *> allNodes;
-
-        binaryTree.GetAllNodes(allNodes);
-
-        EXPECT_TRUE(allNodes.empty());
-    }
-
-    TEST_F(EmptyTree, NonLeafNodes) {
-        std::vector<BinaryTree::Node_t *> nonLeafNodes;
-
-        binaryTree.GetNonLeafNodes(nonLeafNodes);
-
-        EXPECT_TRUE(nonLeafNodes.empty());
-    }
-
     TEST_F(NonEmptyTree, Insert) {
 
         ///existing pair test
@@ -259,28 +240,60 @@
         EXPECT_TRUE(binaryTree.FindNode(-20) == nullptr);
     }
 
-    TEST_F(NonEmptyTree, LeafNodes) {
-        std::vector<BinaryTree::Node_t *> leafNodes;
+    TEST_F(TreeAxioms, Axiom1) {
+        std::vector<BinaryTree::Node_t *> nodes;
 
-        binaryTree.GetLeafNodes(leafNodes);
+        binaryTree.GetLeafNodes(nodes);
 
-        EXPECT_TRUE(leafNodes.size() == numberNodes);
+        for (auto node : nodes) {
+            ASSERT_TRUE(node != nullptr);
+            ASSERT_TRUE(node->color == BinaryTree::BLACK);
+        }
+
     }
 
-    TEST_F(NonEmptyTree, AllNodes) {
-        std::vector<BinaryTree::Node_t *> allNodes;
+    TEST_F(TreeAxioms, Axiom2) {
+        std::vector<BinaryTree::Node_t *> nodes;
 
-        binaryTree.GetAllNodes(allNodes);
+        binaryTree.GetNonLeafNodes(nodes);
 
-        EXPECT_TRUE(allNodes.size() == numberLeafNodes + numberNodes);
+        for (auto node : nodes) {
+            ASSERT_TRUE(node != nullptr);
+            if (node->color == BinaryTree::RED) {
+                EXPECT_TRUE(node->pRight->color == BinaryTree::BLACK);
+                EXPECT_TRUE(node->pLeft->color == BinaryTree::BLACK);
+            }
+        }
     }
 
-    TEST_F(NonEmptyTree, NonLeafNodes) {
+    TEST_F(TreeAxioms, Axiom3) {
+        Node_t *root;
+        std::vector<BinaryTree::Node_t *> nodes;
         std::vector<BinaryTree::Node_t *> nonLeafNodes;
 
+        binaryTree.GetLeafNodes(nodes);
         binaryTree.GetNonLeafNodes(nonLeafNodes);
+        root = binaryTree.GetRoot();
+        int counter = 0;
+        int counterMAX = 0;
 
-        EXPECT_TRUE(nonLeafNodes.size() == numberLeafNodes);
+        for (auto node : nonLeafNodes) {
+            if (node->color == BinaryTree::BLACK) {
+                counterMAX++;
+            }
+        }
+
+        for (auto node : nodes) {
+            counter = 0;
+            while (node != root) {
+                node = node->pParent;
+                if (node->color == BinaryTree::BLACK) {
+                    counter++;
+                }
+            }
+
+            ASSERT_TRUE(counter == counterMAX);
+        }
     }
 
 
